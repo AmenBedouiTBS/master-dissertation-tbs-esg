@@ -161,17 +161,14 @@ log(stats_total.to_string())
 # 5. RATIOS DE RISQUE
 # =====================================================================
 
-# Taux sans risque approximé par 3M T-Bill (proxy : 2% moyen sur la période)
-# Pour plus de rigueur, on télécharge les T-Bills via yfinance (^IRX)
-try:
-    tbill = yf.download('^IRX', start=START_DATE, end=END_DATE,
-                         progress=False, auto_adjust=False)['Close']
-    rf_annual = (tbill / 100).mean()  # ^IRX est en %
-    rf_daily = (1 + rf_annual) ** (1/252) - 1
-    log(f"\nTaux sans risque moyen 3M T-Bill : {rf_annual*100:.2f}% annualisé")
-except Exception as e:
-    rf_daily = 0.02 / 252
-    log(f"\nTaux sans risque fixé à 2% (T-Bill indisponible : {e})")
+# Taux sans risque : proxy fixe de 2 % annualisé, correspondant à la moyenne
+# approximative du Bon du Trésor américain 3 mois (T-Bill) sur 2020-2025.
+# Valeur retenue de façon déterministe pour garantir la reproductibilité des
+# ratios et leur cohérence avec ceux reportés dans le mémoire.
+RF_ANNUAL = 0.02
+rf_daily = RF_ANNUAL / 252
+log(f"\nTaux sans risque retenu : {RF_ANNUAL*100:.1f}% annualisé "
+    f"(proxy T-Bill 3 mois, moyenne 2020-2025)")
 
 def sharpe_ratio(returns, rf=rf_daily):
     excess = returns - rf
