@@ -177,5 +177,4 @@ Apprentissage : ALGIZ (France, Monaco, Allemagne)
 ## Licence
 
 Code distribué sous licence MIT pour usage académique et de recherche.
-Données financières propriétaires (LSEG Workspace) : usage limité au cadre du mémoire académique.erche.
 Données financières propriétaires (LSEG Workspace) : usage limité au cadre du mémoire académique.
